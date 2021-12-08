@@ -50,6 +50,17 @@
   text-align: center;
 }
 
+.button {
+  margin-top: 1rem;
+  background-color: #ffea00;
+  border: solid 0.3rem #000;
+  padding: 1rem;
+  font-size: large;
+  color: #000;
+  font-weight: bolder;
+  cursor: pointer;
+}
+
 .description {
   margin: 4rem 0;
   line-height: 1.5;
@@ -71,6 +82,11 @@
   justify-content: center;
   flex-wrap: wrap;
   max-width: 800px;
+}
+
+.heart {
+  color: red;
+  width: 3rem;
 }
 
 .card {
