@@ -31,8 +31,10 @@ export default function Form({ onMistake, setPoints }) {
 
   const submitAnswer = () => {
     if (new RegExp(verb[tense]).test(answer)) {
+      new Audio("/correct.mp3").play();
       setPoints((prevPoints) => prevPoints + 5);
     } else {
+      new Audio("/fail.mp3").play();
       onMistake(verb[tense]);
     }
     setAnswer("");
