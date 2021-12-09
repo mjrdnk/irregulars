@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { irregulars } from "../utils/data";
 import Button from "./Button";
 
@@ -11,7 +11,7 @@ export default function Form({ onMistake, setPoints }) {
   const [tense, setTense] = useState("");
   const [hintTense, setHintTense] = useState("");
 
-  const makeQuestion = () => {
+  const makeQuestion = useCallback(() => {
     const verbPick = raffleFromArray(irregulars);
     const tenses = Object.keys(verbPick);
     const tenseToGuess = raffleFromArray(tenses);
@@ -19,13 +19,11 @@ export default function Form({ onMistake, setPoints }) {
     setHintTense(raffleFromArray(availableTenses));
     setVerb(verbPick);
     setTense(tenseToGuess);
-
-    console.log(verb);
-  };
+  }, [setHintTense, setVerb, setTense]);
 
   useEffect(() => {
     makeQuestion();
-  }, []);
+  }, [makeQuestion]);
 
   const submitAnswer = () => {
     if (new RegExp(verb[tense]).test(answer)) {
@@ -48,7 +46,7 @@ export default function Form({ onMistake, setPoints }) {
         e.preventDefault();
       }}
     >
-      <label for="answer">
+      <label htmlFor="answer">
         <p className="mb-4 text-lg">
           Write a <span className="font-bold">{tense}</span> form of{" "}
           <span className="underline">{verb[hintTense]}</span>:

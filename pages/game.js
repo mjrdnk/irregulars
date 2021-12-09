@@ -25,19 +25,19 @@ export default function Game() {
     return () => {
       clearInterval(timer);
     };
-  }, []);
+  }, [setTimer, timer]);
 
   useEffect(() => {
     if (counter < 0) {
       clearInterval(timer);
     }
-  }, [counter]);
+  }, [counter, timer]);
 
   useEffect(() => {
     if (lives === 0 && typeof window !== "undefined") {
       window.localStorage.setItem("irregulars_game_score", points);
     }
-  }, [lives]);
+  }, [lives, points]);
 
   return (
     <>
