@@ -10,6 +10,7 @@ export default function Game() {
   const [timer, setTimer] = useState(null);
   const [lives, setLives] = useState(3);
   const [points, setPoints] = useState(0);
+  const [answer, setAnswer] = useState("");
 
   const isHighScore = () => {
     if (typeof window !== "undefined") {
@@ -17,6 +18,12 @@ export default function Game() {
       return points > oldHighScore;
     }
     return false;
+  };
+
+  const onMistake = (correctAnswer) => {
+    setAnswer(correctAnswer);
+    setLives((prevLives) => --prevLives);
+    setTimeout(() => setAnswer(""), 2000);
   };
 
   useEffect(() => {
@@ -65,36 +72,46 @@ export default function Game() {
           </p>
         ) : (
           <>
-            {lives > 0 ? (
-              <Form
-                onMistake={() => setLives((prevLives) => --prevLives)}
-                setPoints={(newPoints) => {
-                  setPoints(newPoints);
-                }}
-              />
+            {answer ? (
+              <p className="text-6xl font-bold">{answer}</p>
             ) : (
-              <div className="flex flex-col justify-center items-center text-center space-y-6">
-                {isHighScore() ? (
-                  <>
-                    <p className="text-4xl font-bold">YOUR NEW HIGH SCORE!!!</p>
-                    <p className="text-4xl font-bold">{points} points 🎉</p>
-                  </>
+              <>
+                {lives > 0 ? (
+                  <Form
+                    onMistake={onMistake}
+                    setPoints={(newPoints) => {
+                      setPoints(newPoints);
+                    }}
+                  />
                 ) : (
-                  <>
-                    <p className="text-6xl font-bold">Game over 😭</p>
-                    <p className="text-2xl font-bold">Your score: {points}</p>
-                  </>
+                  <div className="flex flex-col justify-center items-center text-center space-y-6">
+                    {isHighScore() ? (
+                      <>
+                        <p className="text-4xl font-bold">
+                          YOUR NEW HIGH SCORE!!!
+                        </p>
+                        <p className="text-4xl font-bold">{points} points 🎉</p>
+                      </>
+                    ) : (
+                      <>
+                        <p className="text-6xl font-bold">Game over 😭</p>
+                        <p className="text-2xl font-bold">
+                          Your score: {points}
+                        </p>
+                      </>
+                    )}
+                    <Button
+                      onClick={() => {
+                        if (typeof window !== "undefined") {
+                          router.reload(window.location.pathname);
+                        }
+                      }}
+                    >
+                      Start again
+                    </Button>
+                  </div>
                 )}
-                <Button
-                  onClick={() => {
-                    if (typeof window !== "undefined") {
-                      router.reload(window.location.pathname);
-                    }
-                  }}
-                >
-                  Start again
-                </Button>
-              </div>
+              </>
             )}
           </>
         )}

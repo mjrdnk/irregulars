@@ -12,7 +12,11 @@ export default function Form({ onMistake, setPoints }) {
   const [hintTense, setHintTense] = useState("");
 
   const makeQuestion = useCallback(() => {
-    const verbPick = raffleFromArray(irregulars);
+    const verbPick = raffleFromArray(
+      irregulars.filter(
+        (irregularVerb) => irregularVerb["Past-Participle"] !== ""
+      )
+    );
     const tenses = Object.keys(verbPick);
     const tenseToGuess = raffleFromArray(tenses);
     const availableTenses = tenses.filter((tense) => tense !== tenseToGuess);
@@ -29,7 +33,7 @@ export default function Form({ onMistake, setPoints }) {
     if (new RegExp(verb[tense]).test(answer)) {
       setPoints((prevPoints) => prevPoints + 5);
     } else {
-      onMistake();
+      onMistake(verb[tense]);
     }
     setAnswer("");
     makeQuestion();
