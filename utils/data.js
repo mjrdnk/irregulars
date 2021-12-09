@@ -367,7 +367,7 @@ export const irregulars = [
   {
     Base: "may",
     "Past-simple": "might",
-    "Past-Participle": "…",
+    "Past-Participle": "",
   },
   {
     Base: "mean",
@@ -387,7 +387,7 @@ export const irregulars = [
   {
     Base: "must",
     "Past-simple": "had to",
-    "Past-Participle": "…",
+    "Past-Participle": "",
   },
   {
     Base: "overtake",
@@ -472,7 +472,7 @@ export const irregulars = [
   {
     Base: "shall",
     "Past-simple": "should",
-    "Past-Participle": "…",
+    "Past-Participle": "",
   },
   {
     Base: "shed",
@@ -677,7 +677,7 @@ export const irregulars = [
   {
     Base: "will",
     "Past-simple": "would",
-    "Past-Participle": "…",
+    "Past-Participle": "",
   },
   {
     Base: "win",

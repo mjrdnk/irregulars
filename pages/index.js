@@ -1,29 +1,21 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
+import Button from "../components/Button";
 
 export default function Home() {
   const router = useRouter();
   return (
-    <div className="h-full">
-      <Head>
-        <title>Learn irregular English verbs</title>
-        <meta name="description" content="Learn irregular English verbs" />
-      </Head>
-
-      <main className="">
-        <h1 className="text-4xl">Welcome to Irregulars!</h1>
-        <button
-          className=""
+    <div className="h-full flex flex-col justify-center items-center">
+      <main className="flex flex-col justify-center items-center space-y-12">
+        <h1 className="text-6xl text-center">Welcome to Irregulars!</h1>
+        <Button
           onClick={() => {
             router.push("game");
           }}
         >
           Press to play
-        </button>
+        </Button>
       </main>
-      <footer className="">
-        <a href="mailto:maciej.jordanek@gmail.com">Contact developer</a>
-      </footer>
     </div>
   );
 }
