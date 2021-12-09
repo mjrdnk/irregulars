@@ -10,6 +10,7 @@ export default function Form({ onMistake, setPoints }) {
   const [verb, setVerb] = useState(null);
   const [tense, setTense] = useState("");
   const [hintTense, setHintTense] = useState("");
+  const [correct, setCorrect] = useState(false);
 
   const makeQuestion = useCallback(() => {
     const verbPick = raffleFromArray(
@@ -33,6 +34,8 @@ export default function Form({ onMistake, setPoints }) {
     if (new RegExp(verb[tense]).test(answer)) {
       new Audio("/correct.mp3").play();
       setPoints((prevPoints) => prevPoints + 5);
+      setCorrect(true);
+      setTimeout(() => setCorrect(false), 1000);
     } else {
       new Audio("/fail.mp3").play();
       onMistake(verb[tense]);
@@ -66,7 +69,13 @@ export default function Form({ onMistake, setPoints }) {
           value={answer}
           onChange={(e) => setAnswer(e.target.value)}
         />
-        <Button onClick={submitAnswer}>Answer</Button>
+        <Button onClick={submitAnswer}>
+          {correct ? (
+            <span>&nbsp;&nbsp;&nbsp;🎉&nbsp;&nbsp;&nbsp;</span>
+          ) : (
+            <span>Answer</span>
+          )}
+        </Button>
       </div>
     </form>
   );
