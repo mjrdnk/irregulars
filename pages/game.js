@@ -25,7 +25,9 @@ export default function Game() {
     return () => {
       clearInterval(timer);
     };
-  }, [setTimer, timer]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (counter < 0) {
