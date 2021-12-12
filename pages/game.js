@@ -11,6 +11,7 @@ export default function Game() {
   const [lives, setLives] = useState(3);
   const [points, setPoints] = useState(0);
   const [answer, setAnswer] = useState("");
+  const [success, setSuccess] = useState(false);
 
   const isHighScore = () => {
     if (typeof window !== "undefined") {
@@ -77,12 +78,22 @@ export default function Game() {
             ) : (
               <>
                 {lives > 0 ? (
-                  <Form
-                    onMistake={onMistake}
-                    setPoints={(newPoints) => {
-                      setPoints(newPoints);
-                    }}
-                  />
+                  success ? (
+                    <p className="text-6xl">
+                      &nbsp;&nbsp;&nbsp;🎉&nbsp;&nbsp;&nbsp;
+                    </p>
+                  ) : (
+                    <Form
+                      onMistake={onMistake}
+                      setPoints={(newPoints) => {
+                        setPoints(newPoints);
+                      }}
+                      onCorrect={() => {
+                        setSuccess(true);
+                        setTimeout(() => setSuccess(false), 1000);
+                      }}
+                    />
+                  )
                 ) : (
                   <div className="flex flex-col justify-center items-center text-center space-y-6">
                     {isHighScore() ? (
@@ -100,6 +111,7 @@ export default function Game() {
                         </p>
                       </>
                     )}
+
                     <Button
                       onClick={() => {
                         if (typeof window !== "undefined") {
