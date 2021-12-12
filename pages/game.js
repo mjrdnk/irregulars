@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Heart from "../components/Heart";
 import Form from "../components/Form";
-import Button from "../components/Button";
 
 export default function Game() {
   const router = useRouter();
@@ -12,14 +11,6 @@ export default function Game() {
   const [points, setPoints] = useState(0);
   const [answer, setAnswer] = useState("");
   const [success, setSuccess] = useState(false);
-
-  const isHighScore = () => {
-    if (typeof window !== "undefined") {
-      const oldHighScore = window.localStorage.getItem("irregulars_game_score");
-      return points > oldHighScore;
-    }
-    return false;
-  };
 
   const onMistake = (correctAnswer) => {
     setAnswer(correctAnswer);
@@ -44,10 +35,11 @@ export default function Game() {
   }, [counter, timer]);
 
   useEffect(() => {
-    if (lives === 0 && typeof window !== "undefined") {
-      window.localStorage.setItem("irregulars_game_score", points);
+    if (lives === 0) {
+      const query = points ? `?points=${points}` : "";
+      router.push("score" + query);
     }
-  }, [lives, points]);
+  }, [lives, router, points]);
 
   return (
     <>
@@ -77,51 +69,21 @@ export default function Game() {
               <p className="text-6xl font-bold">{answer}</p>
             ) : (
               <>
-                {lives > 0 ? (
-                  success ? (
-                    <p className="text-6xl">
-                      &nbsp;&nbsp;&nbsp;🎉&nbsp;&nbsp;&nbsp;
-                    </p>
-                  ) : (
-                    <Form
-                      onMistake={onMistake}
-                      setPoints={(newPoints) => {
-                        setPoints(newPoints);
-                      }}
-                      onCorrect={() => {
-                        setSuccess(true);
-                        setTimeout(() => setSuccess(false), 1000);
-                      }}
-                    />
-                  )
+                {success ? (
+                  <p className="text-6xl">
+                    &nbsp;&nbsp;&nbsp;🎉&nbsp;&nbsp;&nbsp;
+                  </p>
                 ) : (
-                  <div className="flex flex-col justify-center items-center text-center space-y-6">
-                    {isHighScore() ? (
-                      <>
-                        <p className="text-4xl font-bold">
-                          YOUR NEW HIGH SCORE!!!
-                        </p>
-                        <p className="text-4xl font-bold">{points} points 🎉</p>
-                      </>
-                    ) : (
-                      <>
-                        <p className="text-6xl font-bold">Game over 😭</p>
-                        <p className="text-2xl font-bold">
-                          Your score: {points}
-                        </p>
-                      </>
-                    )}
-
-                    <Button
-                      onClick={() => {
-                        if (typeof window !== "undefined") {
-                          router.reload(window.location.pathname);
-                        }
-                      }}
-                    >
-                      Start again
-                    </Button>
-                  </div>
+                  <Form
+                    onMistake={onMistake}
+                    setPoints={(newPoints) => {
+                      setPoints(newPoints);
+                    }}
+                    onCorrect={() => {
+                      setSuccess(true);
+                      setTimeout(() => setSuccess(false), 1000);
+                    }}
+                  />
                 )}
               </>
             )}
