@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Heart from "../components/Heart";
 import Form from "../components/Form";
+import mixpanel from "mixpanel-browser";
 
 export default function Game() {
   const router = useRouter();
@@ -16,6 +17,7 @@ export default function Game() {
     setAnswer(correctAnswer);
     setLives((prevLives) => --prevLives);
     setTimeout(() => setAnswer(""), 2000);
+    mixpanel.track("wrong answer");
   };
 
   useEffect(() => {
@@ -82,6 +84,7 @@ export default function Game() {
                     onCorrect={() => {
                       setSuccess(true);
                       setTimeout(() => setSuccess(false), 1000);
+                      mixpanel.track("correct answer");
                     }}
                   />
                 )}

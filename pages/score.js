@@ -6,7 +6,6 @@ export default function Score() {
   const router = useRouter();
   const [isHighScore, setIsHighScore] = useState(false);
   const { points } = router.query;
-  console.log(router);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -37,6 +36,7 @@ export default function Score() {
           onClick={() => {
             if (typeof window !== "undefined") {
               router.push("game");
+              mixpanel.track("start again");
             }
           }}
         >
