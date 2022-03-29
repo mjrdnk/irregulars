@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import Button from "../components/Button";
+import mixpanel from "mixpanel-browser";
 
 export default function Home() {
   const router = useRouter();
@@ -16,6 +17,7 @@ export default function Home() {
         <Button
           onClick={() => {
             router.push("game");
+            mixpanel.track("play");
           }}
         >
           Press to play
