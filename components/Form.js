@@ -64,6 +64,7 @@ export default function Form({ onMistake, setPoints, onCorrect }) {
       </label>
       <div className="space-x-0 sm:space-x-4 space-y-4 sm:space-y-0 flex flex-col sm:flex-row justify-center items-center">
         <input
+          autoFocus
           id="answer"
           className="border-4 border-black px-6 py-4 text-2xl"
           placeholder="Write answer here"
